@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<configuration>
+    <!-- Include the default base configuration for Spring Boot logging -->
+    <!-- This base configuration sets up the default logging format and levels -->
+    <include resource="org/springframework/boot/logging/logback/base.xml"/>
+
+    <!-- Define a custom appender for metrics -->
+    <!-- This appender integrates with Prometheus to collect and expose metrics -->
+    <appender name="METRICS" class="io.prometheus.client.logback.InstrumentedAppender" />
+
+    <!-- Configure the root logger -->
+    <!-- This logger handles the default logging level and appender references -->
+    <root level="INFO">
+        <!-- Reference the custom METRICS appender defined above -->
+        <!-- This enables metric collection for all logs at the INFO level and above -->
+        <appender-ref ref="METRICS" />
+    </root>
+
+</configuration>
