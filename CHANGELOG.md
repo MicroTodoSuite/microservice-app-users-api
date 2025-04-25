@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/MicroTodoSuite/microservice-app-users-api/compare/v1.0.0...v1.1.0) (2025-04-25)
+
+
+### Features
+
+* **pipeline:** update pipeline ([0cb7ef9](https://github.com/MicroTodoSuite/microservice-app-users-api/commit/0cb7ef9afcb8cd4ff2573fe7aeb048ea74d6b2aa))
+
 # 1.0.0 (2025-04-25)
 
 
