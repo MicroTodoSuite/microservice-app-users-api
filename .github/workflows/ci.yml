@@ -18,6 +18,7 @@ jobs:
       service-name: users-api
       language: java
       sonar-project-key: MicroTodoSuite_users-api
+      sonar-host-url: ${{ vars.SONAR_HOST_URL }}
     secrets: inherit
 
   release:
