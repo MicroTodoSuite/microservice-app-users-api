@@ -9,8 +9,10 @@ RUN mvn -B -ntp clean verify
 FROM gcr.io/distroless/java21-debian13:nonroot@sha256:4e664bc71c4459c50407bbbeda96058f82c6b6d07d155d1ac39b8deca3cd42c0
 
 WORKDIR /app
-COPY --from=build --chown=nonroot:nonroot /src/target/users-api-0.0.1-SNAPSHOT.jar /app/app.jar
+COPY --from=build --chown=65532:65532 /src/target/users-api-0.0.1-SNAPSHOT.jar /app/app.jar
 
-USER nonroot:nonroot
+# The distroless nonroot account maps to UID/GID 65532. A numeric image user
+# lets Kubernetes verify runAsNonRoot before it starts the container.
+USER 65532:65532
 EXPOSE 8083
 ENTRYPOINT ["/usr/bin/java", "-jar", "/app/app.jar"]
