@@ -2,50 +2,45 @@ package com.elgris.usersapi.api;
 
 import com.elgris.usersapi.models.User;
 import com.elgris.usersapi.repository.UserRepository;
-import io.jsonwebtoken.Claims;
-import io.prometheus.client.spring.web.PrometheusTimeMethod;
-
-import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.security.access.AccessDeniedException;
-import org.springframework.web.bind.annotation.*;
-
-import javax.servlet.http.HttpServletRequest;
+import io.micrometer.core.annotation.Timed;
+import jakarta.servlet.http.HttpServletRequest;
 import java.util.LinkedList;
 import java.util.List;
+import java.util.Map;
+import org.springframework.security.access.AccessDeniedException;
+import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
-@RestController()
+@RestController
 @RequestMapping("/users")
 public class UsersController {
 
-    @Autowired
-    private UserRepository userRepository;
+    private final UserRepository userRepository;
 
+    public UsersController(UserRepository userRepository) {
+        this.userRepository = userRepository;
+    }
 
-    @RequestMapping(value = "/", method = RequestMethod.GET)
-    @PrometheusTimeMethod(name = "getUser_list_duration_seconds", help = "Time taken to get all users")
+    @GetMapping({"", "/"})
+    @Timed(value = "getUser.list.duration", description = "Time taken to get all users")
     public List<User> getUsers() {
         List<User> response = new LinkedList<>();
         userRepository.findAll().forEach(response::add);
-
         return response;
     }
 
-    @RequestMapping(value = "/{username}",  method = RequestMethod.GET)
-    @PrometheusTimeMethod(name = "getUser_duration_seconds", help = "Time taken to get a user")
-    public User getUser(HttpServletRequest request, @PathVariable("username") String username) {
-
+    @GetMapping("/{username}")
+    @Timed(value = "getUser.duration", description = "Time taken to get a user")
+    public User getUser(HttpServletRequest request, @PathVariable String username) {
         Object requestAttribute = request.getAttribute("claims");
-        if((requestAttribute == null) || !(requestAttribute instanceof Claims)){
-            throw new RuntimeException("Did not receive required data from JWT token");
+        if (!(requestAttribute instanceof Map<?, ?> claims)) {
+            throw new IllegalStateException("Did not receive required data from JWT token");
         }
-
-        Claims claims = (Claims) requestAttribute;
-
-        if (!username.equalsIgnoreCase((String)claims.get("username"))) {
+        if (!username.equalsIgnoreCase(String.valueOf(claims.get("username")))) {
             throw new AccessDeniedException("No access for requested entity");
         }
-
         return userRepository.findOneByUsername(username);
     }
-
 }

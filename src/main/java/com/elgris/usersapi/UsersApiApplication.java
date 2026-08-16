@@ -3,11 +3,6 @@ package com.elgris.usersapi;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 
-import io.prometheus.client.hotspot.DefaultExports;
-import io.prometheus.client.spring.boot.EnablePrometheusEndpoint;
-import io.prometheus.client.spring.boot.EnableSpringBootMetricsCollector;
-import io.prometheus.client.spring.web.EnablePrometheusTiming;
-
 /**
  * The entry point for the Users API application.
  * <p>
@@ -16,9 +11,6 @@ import io.prometheus.client.spring.web.EnablePrometheusTiming;
  * </p>
  */
 @SpringBootApplication
-@EnablePrometheusEndpoint
-@EnableSpringBootMetricsCollector
-@EnablePrometheusTiming
 public class UsersApiApplication {
 
     /**
@@ -30,9 +22,6 @@ public class UsersApiApplication {
      * @param args Command-line arguments passed to the application.
      */
     public static void main(String[] args) {
-        // Initialize Prometheus default exports for JVM metrics
-        DefaultExports.initialize();
-        
         // Run the Spring Boot application
         SpringApplication.run(UsersApiApplication.class, args);
     }    

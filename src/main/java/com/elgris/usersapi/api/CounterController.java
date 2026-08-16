@@ -1,43 +1,26 @@
 package com.elgris.usersapi.api;
 
-import io.prometheus.client.Counter;
+import io.micrometer.core.instrument.Counter;
+import io.micrometer.core.instrument.MeterRegistry;
+import java.util.concurrent.atomic.AtomicInteger;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-/**
- * REST controller for handling requests related to counting.
- * <p>
- * This controller provides an endpoint to track and return the number of requests
- * received by the service. It also uses Prometheus to record the total number of requests.
- * </p>
- */
 @RestController
 public class CounterController {
 
-    /** Counter to track the total number of requests, exposed to Prometheus. */
-    private static final Counter requests = Counter.build()
-            .name("count_requests_total")
-            .help("Total count of requests.")
-            .register();
+    private final Counter requests;
+    private final AtomicInteger count = new AtomicInteger();
 
-    /** Counter to keep track of the number of requests in-memory. */
-    private static int num = 0;
+    public CounterController(MeterRegistry meterRegistry) {
+        this.requests = Counter.builder("count_requests_total")
+                .description("Total count of requests")
+                .register(meterRegistry);
+    }
 
-    /**
-     * Handles GET requests to the "/count" endpoint.
-     * <p>
-     * This method increments the Prometheus counter for total requests and
-     * returns the current count of requests received by the service.
-     * </p>
-     * 
-     * @return The current count of requests, incremented by one.
-     */
-    @GetMapping("count")
+    @GetMapping("/count")
     public int count() {
-        // Increment the Prometheus counter for total requests
-        requests.inc();
-        
-        // Increment and return the current request count
-        return ++num;
+        requests.increment();
+        return count.incrementAndGet();
     }
 }

@@ -1,0 +1,9 @@
+.git
+.github
+.gitignore
+.mvn
+CHANGELOG.md
+README.md
+mvnw*
+package*.json
+target
