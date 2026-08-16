@@ -1,23 +1,16 @@
-FROM maven:3.9.9-eclipse-temurin-8 AS build
+FROM maven:3.9.12-eclipse-temurin-21@sha256:c3c9d3ac4ce8431a3995c0318b8d390f448e693dd4fabc16e9b68d2e1f3d7b46 AS build
+
+WORKDIR /src
+COPY pom.xml ./
+RUN mvn -B -ntp dependency:go-offline
+COPY src ./src
+RUN mvn -B -ntp clean verify
+
+FROM gcr.io/distroless/java21-debian13:nonroot@sha256:4e664bc71c4459c50407bbbeda96058f82c6b6d07d155d1ac39b8deca3cd42c0
+
 WORKDIR /app
-COPY . .
-RUN mvn clean package
+COPY --from=build --chown=nonroot:nonroot /src/target/users-api-0.0.1-SNAPSHOT.jar /app/app.jar
 
-FROM eclipse-temurin:8-jre AS runtime
-
-RUN groupadd --gid 10001 users-api \
-    && useradd --uid 10001 --gid users-api --no-create-home --shell /usr/sbin/nologin users-api
-
-WORKDIR /app
-COPY --from=build --chown=users-api:users-api /app/target/*.jar app.jar
-
-USER 10001:10001
-
+USER nonroot:nonroot
 EXPOSE 8083
-
-# Shell form is required here for ${SERVER_PORT} expansion and the `|| exit 1` fallback.
-# hadolint ignore=DL3025
-HEALTHCHECK --interval=10s --timeout=3s --start-period=15s --retries=3 \
-    CMD wget -qO- "http://localhost:${SERVER_PORT:-8083}/prometheus" || exit 1
-
-ENTRYPOINT ["java", "-jar", "app.jar"]
+ENTRYPOINT ["/usr/bin/java", "-jar", "/app/app.jar"]
