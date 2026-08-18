@@ -1,0 +1,162 @@
+# Trivy vulnerability exceptions (spec 006 / T002, FR-002).
+#
+# RISK-ACCEPTED, DOCUMENTED exceptions (owner decision 2026-08-17). users-api runs
+# Spring Boot 1.5.6.RELEASE on Java 8. Every HIGH/CRITICAL below is only fixed in a
+# version that requires Spring Boot 2/3 (Java 11/17) -- a framework migration, not a
+# dependency bump, and explicitly out of scope for this feature (plan Complexity
+# Tracking: "Legacy stacks limit remediation").
+#
+# Already remediated in-major (NOT listed here): logback 1.2.13, tomcat 8.5.51,
+# jackson 2.8.11, spring 4.3.15, spring-data Ingalls-SR12, hibernate-validator
+# 5.3.6, snakeyaml 1.26, bcprov 1.56 -- see pom.xml.
+#
+# FOLLOW-UP (tracked): migrate users-api to Spring Boot 2.7/3.x to remove these at
+# the source. See docs/spring-boot-migration-followup.md.
+# review-by: 2026-11-30
+
+
+# org.springframework:spring-web -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2016-1000027
+CVE-2024-22243
+CVE-2024-22259
+CVE-2024-22262
+
+# org.bouncycastle:bcprov-jdk15on -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2018-1000180
+
+# com.fasterxml.jackson.core:jackson-databind -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2018-11307
+CVE-2018-12022
+CVE-2018-12023
+CVE-2018-14718
+CVE-2018-14719
+CVE-2018-14720
+CVE-2018-14721
+CVE-2018-19360
+CVE-2018-19361
+CVE-2018-19362
+CVE-2018-5968
+CVE-2018-7489
+CVE-2019-12086
+CVE-2019-14379
+CVE-2019-14439
+CVE-2019-14540
+CVE-2019-14892
+CVE-2019-16335
+CVE-2019-16942
+CVE-2019-16943
+CVE-2019-17267
+CVE-2019-17531
+CVE-2019-20330
+CVE-2020-10650
+CVE-2020-10673
+CVE-2020-24616
+CVE-2020-24750
+CVE-2020-25649
+CVE-2020-35490
+CVE-2020-35491
+CVE-2020-35728
+CVE-2020-36179
+CVE-2020-36180
+CVE-2020-36181
+CVE-2020-36182
+CVE-2020-36183
+CVE-2020-36184
+CVE-2020-36185
+CVE-2020-36186
+CVE-2020-36187
+CVE-2020-36188
+CVE-2020-36189
+CVE-2020-36518
+CVE-2020-8840
+CVE-2020-9547
+CVE-2020-9548
+CVE-2021-20190
+CVE-2022-42003
+CVE-2022-42004
+
+# org.springframework:spring-core -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2018-15756
+
+# org.springframework.security:spring-security-core -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2019-11272
+CVE-2022-22978
+CVE-2024-22257
+
+# org.apache.tomcat.embed:tomcat-embed-core -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2020-11996
+CVE-2020-9484
+CVE-2021-25122
+CVE-2021-25329
+CVE-2022-42252
+CVE-2023-46589
+CVE-2024-34750
+CVE-2024-38286
+CVE-2024-50379
+CVE-2025-24813
+CVE-2025-48988
+CVE-2025-52520
+CVE-2025-53506
+CVE-2025-55752
+CVE-2026-24880
+CVE-2026-41284
+CVE-2026-41293
+CVE-2026-42498
+CVE-2026-43512
+CVE-2026-43513
+CVE-2026-43515
+
+# org.apache.tomcat.embed:tomcat-embed-websocket -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2020-13935
+
+# org.hibernate:hibernate-core -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2020-25638
+
+# org.springframework.security:spring-security-web -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2021-22112
+CVE-2024-38821
+CVE-2026-22732
+
+# com.h2database:h2 -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2021-42392
+CVE-2022-23221
+
+# org.yaml:snakeyaml -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2022-1471
+CVE-2022-25857
+
+# org.springframework.boot:spring-boot-starter-web -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2022-22965
+
+# org.springframework:spring-context -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2022-22968
+
+# org.springframework:spring-beans -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2022-22970
+
+# org.springframework.boot:spring-boot -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2022-27772
+CVE-2025-22235
+CVE-2026-40973
+
+# org.springframework:spring-expression -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2023-20863
+CVE-2026-41850
+
+# org.springframework.boot:spring-boot-autoconfigure -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2023-20883
+
+# org.springframework:spring-webmvc -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2024-38819
+CVE-2026-41842
+CVE-2026-41845
+
+# org.springframework.security:spring-security-crypto -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2025-22228
+
+# com.fasterxml.jackson.core:jackson-core -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2025-52999
+GHSA-r7wm-3cxj-wff9
+
+# org.springframework.data:spring-data-commons -- fix requires Spring Boot 2/3 (Java 11/17)
+CVE-2026-41716

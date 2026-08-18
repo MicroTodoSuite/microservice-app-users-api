@@ -19,6 +19,8 @@ jobs:
       language: java
       sonar-project-key: MicroTodoSuite_users-api
       sonar-host-url: ${{ vars.SONAR_HOST_URL }}
+      # Unit gate active: ci/unit.sh runs the JUnit suite + JaCoCo (spec 006 T012).
+      run-unit: true
     secrets: inherit
 
   release:

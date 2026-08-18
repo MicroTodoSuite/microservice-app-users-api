@@ -22,6 +22,18 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
         <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
         <java.version>1.8</java.version>
+        <!-- Vulnerability remediation within the Spring Boot 1.5 / Java 8 limits
+             (spec 006 / T011): override managed versions to patched releases that
+             stay in the same major line. Framework-level CVEs (spring-boot,
+             spring-security 5.x, spring 5.x/6.x, hibernate-core, h2 2.x) require a
+             Spring Boot 2/3 migration and are tracked as documented exceptions. -->
+        <logback.version>1.2.13</logback.version>
+        <jackson.version>2.8.11</jackson.version>
+        <snakeyaml.version>1.26</snakeyaml.version>
+        <tomcat.version>8.5.51</tomcat.version>
+        <hibernate-validator.version>5.3.6.Final</hibernate-validator.version>
+        <spring.version>4.3.15.RELEASE</spring.version>
+        <spring-data-releasetrain.version>Ingalls-SR12</spring-data-releasetrain.version>
     </properties>
 
     <dependencies>
@@ -38,6 +50,14 @@
             <groupId>io.jsonwebtoken</groupId>
             <artifactId>jjwt</artifactId>
             <version>0.7.0</version>
+        </dependency>
+
+        <!-- Pull the patched BouncyCastle (transitive via spring-cloud-zipkin);
+             1.56 clears the flagged HIGH and stays JDK 8 compatible (T011). -->
+        <dependency>
+            <groupId>org.bouncycastle</groupId>
+            <artifactId>bcprov-jdk15on</artifactId>
+            <version>1.56</version>
         </dependency>
 
         <dependency>
@@ -98,6 +118,28 @@
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
+            </plugin>
+            <!-- Coverage for the unit gate (spec 006 / T012); 0.8.7 runs on JDK 8.
+                 Produces target/site/jacoco/jacoco.xml for the SonarQube gate. -->
+            <plugin>
+                <groupId>org.jacoco</groupId>
+                <artifactId>jacoco-maven-plugin</artifactId>
+                <version>0.8.7</version>
+                <executions>
+                    <execution>
+                        <id>prepare-agent</id>
+                        <goals>
+                            <goal>prepare-agent</goal>
+                        </goals>
+                    </execution>
+                    <execution>
+                        <id>report</id>
+                        <phase>test</phase>
+                        <goals>
+                            <goal>report</goal>
+                        </goals>
+                    </execution>
+                </executions>
             </plugin>
         </plugins>
     </build>
