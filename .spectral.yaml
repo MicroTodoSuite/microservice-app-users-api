@@ -1,0 +1,2 @@
+# Spectral ruleset for the users-api OpenAPI contract (spec 007).
+extends: ["spectral:oas"]

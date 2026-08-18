@@ -1,0 +1,142 @@
+openapi: 3.1.0
+info:
+  title: Users API
+  version: 1.0.0
+  description: >
+    JWT-protected user directory backed by an in-process datastore. A caller may
+    read only the user named in its own token. Contract-first source of truth
+    (spec 007 / T009).
+  contact:
+    name: MicroTodoSuite
+    url: https://github.com/MicroTodoSuite
+  license:
+    name: MIT
+servers:
+  - url: /
+    description: Environment-neutral; actuator base-path is '/'.
+tags:
+  - name: users
+  - name: observability
+paths:
+  /users:
+    get:
+      operationId: listUsers
+      tags: [users]
+      summary: List all seeded users.
+      description: Returns every user in the directory.
+      security:
+        - bearerAuth: []
+      responses:
+        '200':
+          description: All users.
+          content:
+            application/json:
+              schema:
+                type: array
+                items:
+                  $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+  /users/{username}:
+    get:
+      operationId: getUser
+      tags: [users]
+      summary: Read a single user.
+      description: Returns the user; the username MUST match the caller's token claim.
+      security:
+        - bearerAuth: []
+      parameters:
+        - name: username
+          in: path
+          required: true
+          schema:
+            type: string
+            pattern: '^[A-Za-z0-9_-]+$'
+            minLength: 1
+            maxLength: 64
+      responses:
+        '200':
+          description: The requested user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/User'
+        '401':
+          $ref: '#/components/responses/Unauthorized'
+        '403':
+          description: The token does not own the requested user.
+          content:
+            application/json:
+              schema:
+                $ref: '#/components/schemas/Error'
+  /health:
+    get:
+      operationId: getHealth
+      tags: [observability]
+      summary: Actuator health (public).
+      description: Spring Boot actuator health endpoint.
+      responses:
+        '200':
+          description: Health status.
+          content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+            application/json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
+  /prometheus:
+    get:
+      operationId: getPrometheus
+      tags: [observability]
+      summary: Prometheus metrics exposition (public).
+      description: Micrometer Prometheus registry exposition.
+      responses:
+        '200':
+          description: Prometheus text exposition format.
+          content:
+            text/plain:
+              schema:
+                type: string
+components:
+  securitySchemes:
+    bearerAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+  responses:
+    Unauthorized:
+      description: Missing or invalid bearer token.
+      content:
+        application/json:
+          schema:
+            $ref: '#/components/schemas/Error'
+  schemas:
+    User:
+      type: object
+      required: [username]
+      properties:
+        username:
+          type: string
+        firstname:
+          type: string
+        lastname:
+          type: string
+        role:
+          type: string
+          enum: [USER, ADMIN]
+    Error:
+      type: object
+      properties:
+        message:
+          type: string
+        error:
+          type: string
+        status:
+          type: integer
