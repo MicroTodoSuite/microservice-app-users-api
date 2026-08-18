@@ -51,6 +51,9 @@ paths:
           required: true
           schema:
             type: string
+            pattern: '^[A-Za-z0-9_-]+$'
+            minLength: 1
+            maxLength: 64
       responses:
         '200':
           description: The requested user.
@@ -76,6 +79,12 @@ paths:
         '200':
           description: Health status.
           content:
+            application/vnd.spring-boot.actuator.v3+json:
+              schema:
+                type: object
+                properties:
+                  status:
+                    type: string
             application/json:
               schema:
                 type: object
