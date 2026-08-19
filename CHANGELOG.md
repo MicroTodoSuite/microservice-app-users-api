@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/MicroTodoSuite/microservice-app-users-api/compare/v1.2.0...v1.2.1) (2026-08-19)
+
+
+### Bug Fixes
+
+* correct the spring boot product name typo in the readme ([#13](https://github.com/MicroTodoSuite/microservice-app-users-api/issues/13)) ([82cb8f7](https://github.com/MicroTodoSuite/microservice-app-users-api/commit/82cb8f7bcd668ca782e2b3f2492d5ae38b88bc64))
+
 # [1.2.0](https://github.com/MicroTodoSuite/microservice-app-users-api/compare/v1.1.0...v1.2.0) (2026-08-19)
 
 
