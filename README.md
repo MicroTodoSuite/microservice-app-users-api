@@ -1,5 +1,5 @@
 # Users API
-This service is written in Java with SpringBoot. It provides simple API to retrieve user data.
+This service is written in Java with Spring Boot. It provides simple API to retrieve user data.
 
 - `GET /users` - list all users
 - `GET /users/{username}` - get a user by name
