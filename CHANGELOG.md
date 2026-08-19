@@ -1,3 +1,16 @@
+# [1.2.0](https://github.com/MicroTodoSuite/microservice-app-users-api/compare/v1.1.0...v1.2.0) (2026-08-19)
+
+
+### Bug Fixes
+
+* correct the users endpoint path syntax in the readme ([#10](https://github.com/MicroTodoSuite/microservice-app-users-api/issues/10)) ([d450444](https://github.com/MicroTodoSuite/microservice-app-users-api/commit/d45044435d1220158e265134178620b40990ac09))
+* use numeric runtime identity ([e0d53fb](https://github.com/MicroTodoSuite/microservice-app-users-api/commit/e0d53fb0948c6ffef053c6f121b0311be7e96e58))
+
+
+### Features
+
+* initialize specify configuration and add project constitution documentation ([8e6ea77](https://github.com/MicroTodoSuite/microservice-app-users-api/commit/8e6ea7785fdb265249ce5477cb04258564e80863))
+
 # [1.1.0](https://github.com/MicroTodoSuite/microservice-app-users-api/compare/v1.0.0...v1.1.0) (2025-04-25)
 
 
