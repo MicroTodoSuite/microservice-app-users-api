@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/MicroTodoSuite/microservice-app-users-api/compare/v1.2.2...v1.3.0) (2026-08-24)
+
+
+### Features
+
+* enable histogram buckets for http_server_requests latency ([dce7a17](https://github.com/MicroTodoSuite/microservice-app-users-api/commit/dce7a170106535eff0998c830a36904c5721ad39))
+
 ## [1.2.2](https://github.com/MicroTodoSuite/microservice-app-users-api/compare/v1.2.1...v1.2.2) (2026-08-24)
 
 
