@@ -1,3 +1,10 @@
+## [1.2.2](https://github.com/MicroTodoSuite/microservice-app-users-api/compare/v1.2.1...v1.2.2) (2026-08-24)
+
+
+### Bug Fixes
+
+* **ci:** publish images to the migrated AWS account ([f6143bf](https://github.com/MicroTodoSuite/microservice-app-users-api/commit/f6143bf3ef7629a7bc6a0b3895f12e4f3d3f5294))
+
 ## [1.2.1](https://github.com/MicroTodoSuite/microservice-app-users-api/compare/v1.2.0...v1.2.1) (2026-08-19)
 
 
