@@ -7,8 +7,17 @@ This service is written in Java with Spring Boot. It provides simple API to retr
 ## Configuration
 
 The service scans environment for variables:
+
 - `JWT_SECRET` - secret value for JWT token processing. Must be the same amongst all components.
 - `SERVER_PORT` - the port the service takes.
+- `OTEL_TRACES_SAMPLER_ARG` - trace sampling probability; defaults to `1.0`.
+- `ZIPKIN_URL` - Zipkin v2 spans endpoint.
+- `USERS_API_FEATURE_VERBOSE_SECURITY_ERRORS` - exposes JWT validation details when `true`; defaults to `false`.
+
+Public operational endpoints are `/health/startup`, `/health/readiness`,
+`/health/liveness`, `/health`, and `/prometheus`. Health responses never expose
+component details. API responses return the accepted or generated
+`X-Request-Id` correlation identifier.
 
 ## Building
 
@@ -30,4 +39,4 @@ where `$token` is the response you get from [Auth API](/auth-api).
 Here you can find the software required to run this microservice, as well as the version we have tested. 
 |  Dependency | Version  |
 |-------------|----------|
-| Java        | openJDK8 |
+| Java        | OpenJDK 21 |

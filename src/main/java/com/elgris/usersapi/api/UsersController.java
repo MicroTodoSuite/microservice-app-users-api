@@ -7,6 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.security.access.AccessDeniedException;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -17,6 +19,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RequestMapping("/users")
 public class UsersController {
 
+    private static final Logger LOGGER = LoggerFactory.getLogger(UsersController.class);
     private final UserRepository userRepository;
 
     public UsersController(UserRepository userRepository) {
@@ -28,6 +31,7 @@ public class UsersController {
     public List<User> getUsers() {
         List<User> response = new LinkedList<>();
         userRepository.findAll().forEach(response::add);
+        LOGGER.info("User directory listing completed with {} entries", response.size());
         return response;
     }
 
@@ -41,6 +45,8 @@ public class UsersController {
         if (!username.equalsIgnoreCase(String.valueOf(claims.get("username")))) {
             throw new AccessDeniedException("No access for requested entity");
         }
-        return userRepository.findOneByUsername(username);
+        User user = userRepository.findOneByUsername(username);
+        LOGGER.info("User lookup completed");
+        return user;
     }
 }
