@@ -1,7 +1,13 @@
 package com.elgris.usersapi;
 
+import com.elgris.usersapi.configuration.OperationalProperties;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
+import org.springframework.boot.ApplicationRunner;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.context.properties.ConfigurationPropertiesScan;
+import org.springframework.context.annotation.Bean;
 
 /**
  * The entry point for the Users API application.
@@ -11,7 +17,10 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
  * </p>
  */
 @SpringBootApplication
+@ConfigurationPropertiesScan
 public class UsersApiApplication {
+
+    private static final Logger LOGGER = LoggerFactory.getLogger(UsersApiApplication.class);
 
     /**
      * The main method that starts the Spring Boot application.
@@ -22,7 +31,11 @@ public class UsersApiApplication {
      * @param args Command-line arguments passed to the application.
      */
     public static void main(String[] args) {
-        // Run the Spring Boot application
         SpringApplication.run(UsersApiApplication.class, args);
-    }    
+    }
+
+    @Bean
+    ApplicationRunner logOperationalConfiguration(OperationalProperties properties) {
+        return arguments -> LOGGER.info("Operational configuration loaded: {}", properties);
+    }
 }

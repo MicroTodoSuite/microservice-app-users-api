@@ -1,5 +1,6 @@
 package com.elgris.usersapi.security;
 
+import com.elgris.usersapi.configuration.OperationalProperties;
 import com.fasterxml.jackson.core.type.TypeReference;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.FilterChain;
@@ -26,10 +27,15 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
     private final byte[] jwtSecret;
     private final ObjectMapper objectMapper;
+    private final OperationalProperties operationalProperties;
 
-    public JwtAuthenticationFilter(@Value("${jwt.secret}") String jwtSecret, ObjectMapper objectMapper) {
+    public JwtAuthenticationFilter(
+            @Value("${jwt.secret}") String jwtSecret,
+            ObjectMapper objectMapper,
+            OperationalProperties operationalProperties) {
         this.jwtSecret = jwtSecret.getBytes(StandardCharsets.UTF_8);
         this.objectMapper = objectMapper;
+        this.operationalProperties = operationalProperties;
     }
 
     @Override
@@ -49,8 +55,11 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         try {
             request.setAttribute("claims", verify(authHeader.substring(7)));
             chain.doFilter(request, response);
-        } catch (IllegalArgumentException | GeneralSecurityException exception) {
-            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, "Invalid token");
+        } catch (IllegalArgumentException | GeneralSecurityException | IOException exception) {
+            String message = operationalProperties.features().verboseSecurityErrors()
+                    ? "Invalid token: " + exception.getMessage()
+                    : "Invalid token";
+            response.sendError(HttpServletResponse.SC_UNAUTHORIZED, message);
         }
     }
 
@@ -59,6 +68,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         return "/metrics".equals(path)
                 || "/prometheus".equals(path)
                 || "/health".equals(path)
+                || path.startsWith("/health/")
                 || path.startsWith("/actuator");
     }
 
