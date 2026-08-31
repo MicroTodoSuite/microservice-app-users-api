@@ -138,6 +138,13 @@ class UsersApiApplicationTests {
     }
 
     @Test
+    void malformedSignedJwtIsRejectedInsteadOfEscapingAsServerError() throws Exception {
+        mockMvc.perform(get("/users/admin")
+                        .header("Authorization", "Bearer " + signedTokenWithPayload("not-json")))
+                .andExpect(status().isUnauthorized());
+    }
+
+    @Test
     void serviceOwnedAndHttpMetricsAreExported() throws Exception {
         mockMvc.perform(get("/count")
                         .header("Authorization", "Bearer " + tokenFor("admin")))
@@ -150,12 +157,16 @@ class UsersApiApplicationTests {
     }
 
     private String tokenFor(String username) throws Exception {
-        Base64.Encoder encoder = Base64.getUrlEncoder().withoutPadding();
-        String header = encoder.encodeToString(objectMapper.writeValueAsBytes(Map.of("alg", "HS256", "typ", "JWT")));
-        String payload = encoder.encodeToString(objectMapper.writeValueAsBytes(Map.of(
+        return signedTokenWithPayload(objectMapper.writeValueAsString(Map.of(
                 "username", username,
                 "scope", "read",
                 "exp", Instant.now().plusSeconds(300).getEpochSecond())));
+    }
+
+    private String signedTokenWithPayload(String payloadJson) throws Exception {
+        Base64.Encoder encoder = Base64.getUrlEncoder().withoutPadding();
+        String header = encoder.encodeToString(objectMapper.writeValueAsBytes(Map.of("alg", "HS256", "typ", "JWT")));
+        String payload = encoder.encodeToString(payloadJson.getBytes(StandardCharsets.UTF_8));
         Mac mac = Mac.getInstance("HmacSHA256");
         mac.init(new SecretKeySpec("unit-test-secret".getBytes(StandardCharsets.UTF_8), "HmacSHA256"));
         String signature = encoder.encodeToString(mac.doFinal((header + "." + payload).getBytes(StandardCharsets.US_ASCII)));
