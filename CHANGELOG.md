@@ -1,3 +1,16 @@
+# [1.4.0](https://github.com/MicroTodoSuite/microservice-app-users-api/compare/v1.3.0...v1.4.0) (2026-09-09)
+
+
+### Bug Fixes
+
+* **ci:** target replacement AWS account ([d82bc93](https://github.com/MicroTodoSuite/microservice-app-users-api/commit/d82bc9370496975565c6852a7c215bf8b570c148))
+* **security:** update embedded Tomcat ([6bf24ad](https://github.com/MicroTodoSuite/microservice-app-users-api/commit/6bf24ad8159663c3524b82bbbd663bc0d48c64f0))
+
+
+### Features
+
+* **us3:** implement users-api operational contract ([6b404fc](https://github.com/MicroTodoSuite/microservice-app-users-api/commit/6b404fc8f2e63f4cf18a737c57b6ad2cb3da23be))
+
 # [1.3.0](https://github.com/MicroTodoSuite/microservice-app-users-api/compare/v1.2.2...v1.3.0) (2026-08-24)
 
 
