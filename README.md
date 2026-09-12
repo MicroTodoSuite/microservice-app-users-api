@@ -29,14 +29,14 @@ component details. API responses return the accepted or generated
 JWT_SECRET=PRFT SERVER_PORT=8083 java -jar target/users-api-0.0.1-SNAPSHOT.jar
 ```
 ## Usage
-In case you need to test this API, you can use it as follows:
+The API can be exercised as follows:
 ```
  curl -X GET -H "Authorization: Bearer $token" http://127.0.0.1:8083/users/:username
 ```
-where `$token` is the response you get from [Auth API](/auth-api). 
+where `$token` is the token returned by [Auth API](/auth-api).
 
 ## Dependencies
-Here you can find the software required to run this microservice, as well as the version we have tested. 
+The software required to run this microservice, and the version that was tested:
 |  Dependency | Version  |
 |-------------|----------|
 | Java        | OpenJDK 21 |
