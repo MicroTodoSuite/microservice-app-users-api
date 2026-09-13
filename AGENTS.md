@@ -1,11 +1,11 @@
 ## Overview
 The Users API serves JWT-protected user lookup and listing endpoints, plus an in-process request counter.
-It stores seeded users through Spring Data JPA and exposes Prometheus metrics while sending traces to Zipkin.
+It stores seeded users through Spring Data JPA and exposes Prometheus metrics, and when an OTLP endpoint is configured it exports traces through Micrometer Tracing and OpenTelemetry.
 
 ## Stack
 - Java 8 (`java.version` 1.8), packaged as a Maven JAR; Maven Wrapper 3.5.0 is checked in.
 - Spring Boot 1.5.6.RELEASE with Spring MVC, Security, and Data JPA.
-- H2 1.4.197, JJWT 0.7.0, Spring Cloud Zipkin 1.3.1.RELEASE, and Prometheus clients 0.2.0.
+- H2 1.4.197, JJWT 0.7.0, and Prometheus clients 0.2.0.
 - Tests use Spring Boot Test and JUnit 4.13.2.
 - Node.js 22 and semantic-release 24.2.3 are CI release tooling only, not application runtime dependencies.
 
@@ -41,9 +41,9 @@ It stores seeded users through Spring Data JPA and exposes Prometheus metrics wh
 
 ## Notes for the Kubernetes migration
 - The application listens on `SERVER_PORT`, default `8083`; the Dockerfile declares neither `EXPOSE` nor `HEALTHCHECK`.
-- Supported environment variables and defaults are `JWT_SECRET=myfancysecret`, `SERVER_PORT=8083`, `SPRING_APPLICATION_NAME=users-api`, `ZIPKIN_URL=http://zipkin:9411/`, and `SLEUTH_SAMPLER_PROBABILITY=1.0`.
+- Supported environment variables and defaults are `JWT_SECRET=myfancysecret`, `SERVER_PORT=8083`, `SPRING_APPLICATION_NAME=users-api`, `OTEL_EXPORTER_OTLP_ENDPOINT` (unset, which leaves trace export off), and `SLEUTH_SAMPLER_PROBABILITY=1.0`.
 - Supply `JWT_SECRET` from a Kubernetes Secret and keep it aligned with JWT-issuing components; do not use the checked-in fallback in an environment.
-- Zipkin is the only configured external network dependency. No Redis or external database is configured; H2 and the seeded users are pod-local and must be reviewed for multi-replica operation and restarts.
+- The OTLP/gRPC trace collector named by `OTEL_EXPORTER_OTLP_ENDPOINT` is the only configured external network dependency; `/health/**` and `/prometheus` requests produce no spans. No Redis or external database is configured; H2 and the seeded users are pod-local and must be reviewed for multi-replica operation and restarts.
 - The README identifies Auth API as the JWT issuer, but this service makes no HTTP call to it. The `/count` value is also not shared across replicas.
 - Review probe paths and the `management.endpoints.*` properties against Spring Boot 1.5.6; the JWT filter only proves that observability paths bypass authentication.
 - Review the Java 8 base images, root container user, broad `COPY . .`, wildcard JAR copy, missing `.dockerignore`, and absent container health check.

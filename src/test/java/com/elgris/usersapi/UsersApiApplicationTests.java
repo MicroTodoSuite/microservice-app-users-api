@@ -27,8 +27,7 @@ import org.springframework.test.web.servlet.MockMvc;
 
 @SpringBootTest(properties = {
         "jwt.secret=unit-test-secret",
-        "management.prometheus.metrics.export.enabled=true",
-        "management.zipkin.tracing.export.enabled=false"
+        "management.prometheus.metrics.export.enabled=true"
 })
 @AutoConfigureMockMvc
 class UsersApiApplicationTests {

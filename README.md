@@ -11,7 +11,7 @@ The service scans environment for variables:
 - `JWT_SECRET` - secret value for JWT token processing. Must be the same amongst all components.
 - `SERVER_PORT` - the port the service takes.
 - `OTEL_TRACES_SAMPLER_ARG` - trace sampling probability; defaults to `1.0`.
-- `ZIPKIN_URL` - Zipkin v2 spans endpoint.
+- `OTEL_EXPORTER_OTLP_ENDPOINT` - OTLP/gRPC trace collector, for example `http://jaeger-collector.observability.svc:4317`; when unset, traces are not exported.
 - `USERS_API_FEATURE_VERBOSE_SECURITY_ERRORS` - exposes JWT validation details when `true`; defaults to `false`.
 
 Public operational endpoints are `/health/startup`, `/health/readiness`,
