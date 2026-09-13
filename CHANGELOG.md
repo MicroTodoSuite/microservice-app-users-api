@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/MicroTodoSuite/microservice-app-users-api/compare/v1.4.0...v1.5.0) (2026-09-13)
+
+
+### Features
+
+* **tracing:** export users-api traces over otlp without tracing probes ([#27](https://github.com/MicroTodoSuite/microservice-app-users-api/issues/27)) ([fbeeb89](https://github.com/MicroTodoSuite/microservice-app-users-api/commit/fbeeb89ee087d258a94f2ea68da3cada4c95bb77)), closes [MicroTodoSuite/microservice-app-gitops#123](https://github.com/MicroTodoSuite/microservice-app-gitops/issues/123) [#123](https://github.com/MicroTodoSuite/microservice-app-users-api/issues/123) [#123](https://github.com/MicroTodoSuite/microservice-app-users-api/issues/123)
+
 # [1.4.0](https://github.com/MicroTodoSuite/microservice-app-users-api/compare/v1.3.0...v1.4.0) (2026-09-09)
 
 
