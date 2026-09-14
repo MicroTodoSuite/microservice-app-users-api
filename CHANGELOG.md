@@ -1,3 +1,10 @@
+## [1.5.1](https://github.com/MicroTodoSuite/microservice-app-users-api/compare/v1.5.0...v1.5.1) (2026-09-14)
+
+
+### Bug Fixes
+
+* **ci:** repoint to the latest .github reusable workflow refs ([#30](https://github.com/MicroTodoSuite/microservice-app-users-api/issues/30)) ([7b7c136](https://github.com/MicroTodoSuite/microservice-app-users-api/commit/7b7c136b6d9afd0d0b24119c066f6ab724d7be09)), closes [#142](https://github.com/MicroTodoSuite/microservice-app-users-api/issues/142) [#19](https://github.com/MicroTodoSuite/microservice-app-users-api/issues/19)
+
 # [1.5.0](https://github.com/MicroTodoSuite/microservice-app-users-api/compare/v1.4.0...v1.5.0) (2026-09-13)
 
 
